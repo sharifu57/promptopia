@@ -6,11 +6,10 @@ import Image from "next/image";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const Nav = () => {
-  //   const isUserLoggedIn = true;
-
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropDown, setToggleDropDown] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -30,7 +29,7 @@ const Nav = () => {
           className="object-contain"
           alt="logo Image"
         />
-        <p className="logo_text">PrompTopia</p>
+        <p className="logo_text">HealthHub</p>
       </Link>
 
       {/* desktop navigation */}
@@ -38,7 +37,7 @@ const Nav = () => {
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
-              Create Post
+              Add Review
             </Link>
             <button type="button" onClick={signOut} className="outline_btn">
               Sign Out
@@ -98,7 +97,7 @@ const Nav = () => {
                   className="dropdown_link"
                   onClick={() => setToggleDropDown(false)}
                 >
-                  Create Prompt
+                  Add Review
                 </Link>
 
                 <button
