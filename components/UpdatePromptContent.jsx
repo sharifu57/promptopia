@@ -1,27 +1,31 @@
 "use client";
 
 import Form from "@components/Form";
-import UpdatePromptContent from "@components/UpdatePromptContent";
-import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const UpdatePrompt = () => {
+const UpdatePromptContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const promptId = searchParams.get("id");
 
+  // State to manage the prompt data and submission status
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
     prompt: "",
     tag: "",
   });
 
+  // Function to handle the form submission and update the prompt
   const updateDataPrompt = async (e) => {
     e.preventDefault();
     setSubmitting(true);
 
-    if (!promptId) return alert("Prompt Id not provided");
+    if (!promptId) {
+      alert("Prompt Id not provided");
+      setSubmitting(false);
+      return;
+    }
 
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
@@ -48,26 +52,38 @@ const UpdatePrompt = () => {
     }
   };
 
+  // Fetch the existing prompt data when the component mounts
   useEffect(() => {
     const getPromptDetails = async () => {
-      const response = await fetch(`api/prompt/${promptId}`);
+      if (!promptId) return;
 
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/prompt/${promptId}`);
+        if (!response.ok) throw new Error("Failed to fetch prompt details");
 
-      setPost({
-        prompt: data.prompt,
-        tag: data.tag,
-      });
+        const data = await response.json();
+        setPost({
+          prompt: data.prompt,
+          tag: data.tag,
+        });
+      } catch (error) {
+        console.error("Error fetching prompt details:", error);
+      }
     };
 
-    if (promptId) getPromptDetails();
+    getPromptDetails();
   }, [promptId]);
 
+  // Render the form
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <UpdatePromptContent />
-    </Suspense>
+    <Form
+      type="Edit"
+      post={post}
+      setPost={setPost}
+      submitting={submitting}
+      handleSubmit={updateDataPrompt}
+    />
   );
 };
 
-export default UpdatePrompt;
+export default UpdatePromptContent;
