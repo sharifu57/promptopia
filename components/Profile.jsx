@@ -1,9 +1,17 @@
 import React from "react";
 import PrompCard from "./PrompCard";
+import { useRouter } from "next/navigation";
 
 const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
+  const router = useRouter();
   const handleClickDelete = () => {};
-  const handleClickEdit = () => {};
+  const handleClickEdit = (post) => {
+    if (!post || !post._id) {
+      return;
+    }
+
+    router.push(`/update-prompt?id=${encodeURIComponent(post._id)}`);
+  };
   return (
     <section className="w-full">
       <h1 className="head_text text-left">

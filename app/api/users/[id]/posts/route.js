@@ -8,14 +8,13 @@ export const GET = async (request, { params }) => {
     }
 
     await connectToDB();
-
+    const { id } = await params;
     const prompts = await Prompt.find({
-      creator: params.id,
+      creator: id,
     }).populate("creator");
 
     return new Response(JSON.stringify(prompts), { status: 200 });
   } catch (error) {
-    console.error("Error fetching prompts:", error);
     return new Response("Failed to fetch Data", { status: 500 });
   }
 };
