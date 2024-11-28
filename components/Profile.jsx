@@ -6,7 +6,6 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   const [myPosts, setMyPosts] = useState([]);
   const router = useRouter();
   const handleClickDelete = async (post) => {
-    console.log("=======delete this");
     const hasConfirmed = confirm("Are you sure you want to delete?");
 
     if (hasConfirmed) {
