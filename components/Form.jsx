@@ -30,7 +30,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           />
         </label>
 
-        <label htmlFor="">
+        {/* <label htmlFor="">
           <span className="font-satoshi font-semibold text-base text-gray-700">
             Tag{` `}
             <span>(#product, #Web Development, #idea)</span>
@@ -42,6 +42,22 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             placeholder="Write your Tag here..."
             required
             className="form_input"
+          />
+        </label> */}
+
+        <label htmlFor="">
+          <span className="font-satoshi font-semibold text-base text-gray-700">
+            {type === "Review"? "Review Score" : "Rating"}
+          </span>
+
+          <input 
+          type="number"
+          value={post.rating || 0}
+          onChange={(e) => setPost({...post, rating: e.target.value })}
+          min={1}
+          max={5}
+          required
+          className="form_input"
           />
         </label>
 

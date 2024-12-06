@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 
 const Assistance = () => {
@@ -9,6 +9,8 @@ const Assistance = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [references, setReferences] = useState([]);
+
+  const chatBoxRef = useRef(null); // Ref for the chat box container
 
   const { data: session } = useSession();
   const APIURL = process.env.NEXT_PUBLIC_API_URL;
@@ -93,34 +95,23 @@ const Assistance = () => {
     if (storedConversation) setConversation(JSON.parse(storedConversation));
   }, []);
 
+  useEffect(() => {
+    // Scroll to the bottom of the chat box whenever `conversation` updates
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [conversation]);
+
   return (
     <div className="relative w-full h-screen flex flex-col">
+      <div className="w-full mb-10">
+        <h1 className="head_text text-center">
+            <span className="blue_gradient">AI Assistance Search</span>
+        </h1>
+      </div>
       {/* Main Section */}
       <section className="grid grid-cols-3 flex-grow border-solid border rounded-lg border-gray-200 overflow-hidden">
         <div className="bg-gray-200 p-4">
-          <h2>Left Section</h2>
-          <p>This section takes 1/3 of the width.</p>
-        </div>
-
-        <div className="bg-blue-300 col-span-2 p-4 flex flex-col">
-          {error && <p className="text-red-500 mt-4">{error}</p>}
-
-          <div className="chat-box mt-4 flex-grow overflow-y-auto">
-            {conversation.map((msg, index) => (
-              <div
-                key={index}
-                className={`${
-                  msg.role === "user"
-                    ? "text-right bg-blue-200"
-                    : "text-left bg-gray-200"
-                } p-3 my-2 rounded-lg`}
-              >
-                <span className="block text-gray-700">{msg.content}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* References */}
           {references.length > 0 && (
             <div className="references mt-4">
               <h3 className="font-semibold">Suggested Books and Authors:</h3>
@@ -147,6 +138,29 @@ const Assistance = () => {
               </ul>
             </div>
           )}
+        </div>
+
+        <div className="bg-blue-300 col-span-2 flex-grow p-4 flex flex-col overflow-y-auto">
+          {error && <p className="text-red-500 mt-4">{error}</p>}
+
+          {/* Chat Box */}
+          <div
+            className="chat-box mt-4 flex-grow overflow-y-auto"
+            ref={chatBoxRef} // Attach the ref to the chat box
+          >
+            {conversation.map((msg, index) => (
+              <div
+                key={index}
+                className={`${
+                  msg.role === "user"
+                    ? "text-right bg-blue-200"
+                    : "text-left bg-gray-200"
+                } p-3 my-2 rounded-lg`}
+              >
+                <span className="block text-gray-700">{msg.content}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

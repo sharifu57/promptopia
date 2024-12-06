@@ -168,3 +168,10 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+
+footer {
+  background-color: #1f2937; /* Tailwind's gray-800 */
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}

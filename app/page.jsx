@@ -1,9 +1,12 @@
-"use client"
+"use client";
 import Feed from "@components/Feed";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Home = () => {
+  const [disabled, setDisabled] = useState(false);
+  const { data: session } = useSession();
   const router = useRouter();
   return (
     <section className="w-full flex-center flex-col md:mt-16">
@@ -22,6 +25,7 @@ const Home = () => {
           type="button"
           className="black_btn"
           onClick={() => router.push("/assistance")}
+          disabled={disabled}
         >
           Try Free Now.
         </button>

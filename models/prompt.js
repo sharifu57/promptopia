@@ -11,9 +11,19 @@ const PromptSchema = new Schema({
         required: [true, 'Prompt is required']
     },
 
-    tag: {
-        type: String,
-        required: [true, 'Tag is required']
+    // tag: {
+    //     type: String,
+    //     required: [false]
+    // },
+
+    created: {
+        type: Date,
+        default: Date.now,
+    },
+
+    rating : {
+        type: Number,
+        required: [true, 'Please Enter a Number']
     }
 })
 

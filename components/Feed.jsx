@@ -7,7 +7,7 @@ import PrompCard from "./PrompCard";
 const PromptCardDataList = ({ data, handleTagClick }) => {
   return (
     <div className="mt-16 prompt_layout">
-      {data.map((post) => (
+      {data.slice(-3).map((post) => (
         <PrompCard key={post._id} post={post} handleTagClick={handleTagClick} />
       ))}
     </div>
@@ -34,7 +34,7 @@ const Feed = () => {
   };
 
   const filterPrompts = (searchtext) => {
-    const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
+    const regex = new RegExp(searchtext, "i"); 
     return posts.filter(
       (item) =>
         regex.test(item.creator.username) ||
@@ -63,7 +63,7 @@ const Feed = () => {
 
   return (
     <section className="feed">
-      <form className="relative w-full flex-center">
+      {/* <form className="relative w-full flex-center">
         <input
           type="text"
           placeholder="search here.."
@@ -72,7 +72,7 @@ const Feed = () => {
           required
           className="search_input peer"
         />
-      </form>
+      </form> */}
 
       {searchText ? (
         <PromptCardDataList data={posts} handleTagClick={handleTagDataClick} />
