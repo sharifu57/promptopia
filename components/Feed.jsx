@@ -7,7 +7,7 @@ import PrompCard from "./PrompCard";
 const PromptCardDataList = ({ data, handleTagClick }) => {
   return (
     <div className="mt-16 prompt_layout">
-      {data.slice(-3).map((post) => (
+      {data.slice(-6).map((post) => (
         <PrompCard key={post._id} post={post} handleTagClick={handleTagClick} />
       ))}
     </div>
@@ -34,7 +34,7 @@ const Feed = () => {
   };
 
   const filterPrompts = (searchtext) => {
-    const regex = new RegExp(searchtext, "i"); 
+    const regex = new RegExp(searchtext, "i");
     return posts.filter(
       (item) =>
         regex.test(item.creator.username) ||
@@ -62,7 +62,7 @@ const Feed = () => {
   }, []);
 
   return (
-    <section className="feed">
+    <section className="pt-10">
       {/* <form className="relative w-full flex-center">
         <input
           type="text"
@@ -74,11 +74,24 @@ const Feed = () => {
         />
       </form> */}
 
-      {searchText ? (
-        <PromptCardDataList data={posts} handleTagClick={handleTagDataClick} />
-      ) : (
-        <PromptCardDataList data={posts} handleTagClick={handleTagDataClick} />
-      )}
+      <h3 className="head_text text-left" style={{ fontSize: "30px" }}>
+        User Reviews
+      </h3>
+      <p className=" text-left">Users reviews and Recommendations.</p>
+
+      <div className="mt-[-50px]">
+        {searchText ? (
+          <PromptCardDataList
+            data={posts}
+            handleTagClick={handleTagDataClick}
+          />
+        ) : (
+          <PromptCardDataList
+            data={posts}
+            handleTagClick={handleTagDataClick}
+          />
+        )}
+      </div>
     </section>
   );
 };

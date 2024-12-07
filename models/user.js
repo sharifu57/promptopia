@@ -12,6 +12,10 @@ const userSchema = new Schema({
     },
     image: {
         type: String,
+    },
+    isSuperUser:{
+        type: Boolean,
+        default: false
     }
 });
 
