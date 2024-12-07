@@ -1,12 +1,14 @@
 "use client";
 
 import Profile from "@components/Profile";
+import Spinner from "@components/Spinner";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const MyProfile = () => {
   const router = useRouter();
+  const [isLoading, setLoading] = useState(true);
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
   const handleDataEdit = async () => {};
@@ -21,6 +23,10 @@ const MyProfile = () => {
     };
 
     if (session?.user.id) fetchPosts();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   }, []);
 
   return (

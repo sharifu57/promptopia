@@ -1,8 +1,3 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {};
-
-// export default nextConfig;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -22,3 +17,9 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
+export const metadata = {
+  title: "PrompTopia",
+  description: "Discover & Share AI Prompts.",
+};
+

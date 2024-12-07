@@ -6,10 +6,15 @@ import React, { useEffect, useState } from "react";
 
 const Home = () => {
   const [disabled, setDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 2000);
+  }, []);
   return (
     <section>
       <section className="w-full flex-center flex-col md:mt-16">

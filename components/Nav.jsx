@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import Spinner from "./Spinner";
 
 const Nav = () => {
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropDown, setToggleDropDown] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -18,6 +19,10 @@ const Nav = () => {
     };
 
     setUpProviders();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000);
   }, []);
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -33,42 +38,48 @@ const Nav = () => {
       </Link>
 
       {/* desktop navigation */}
-      <div className="sm:flex hidden">
-        {session?.user ? (
-          <div className="flex gap-3 md:gap-5">
-            <Link href="/create-prompt" className="black_btn">
-              Add Review
-            </Link>
-            <button type="button" onClick={signOut} className="outline_btn">
-              Sign Out
-            </button>
+      {isLoading ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <Spinner />
+        </div>
+      ) : (
+        <div className="sm:flex hidden">
+          {session?.user ? (
+            <div className="flex gap-3 md:gap-5">
+              <Link href="/create-prompt" className="black_btn">
+                Add Review
+              </Link>
+              <button type="button" onClick={signOut} className="outline_btn">
+                Sign Out
+              </button>
 
-            <Link href="/profile">
-              <Image
-                src={session?.user?.image}
-                width={32}
-                height={32}
-                className="rounded-full"
-                alt="Profile Image"
-              />
-            </Link>
-          </div>
-        ) : (
-          <>
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  className="black_btn"
-                  key={provider.name}
-                  onClick={() => signIn(provider.id)}
-                >
-                  Sign in with {provider.name}
-                </button>
-              ))}
-          </>
-        )}
-      </div>
+              <Link href="/profile">
+                <Image
+                  src={session?.user?.image}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                  alt="Profile Image"
+                />
+              </Link>
+            </div>
+          ) : (
+            <>
+              {providers &&
+                Object.values(providers).map((provider) => (
+                  <button
+                    type="button"
+                    className="black_btn"
+                    key={provider.name}
+                    onClick={() => signIn(provider.id)}
+                  >
+                    Sign in with {provider.name}
+                  </button>
+                ))}
+            </>
+          )}
+        </div>
+      )}
 
       {/* mobile Navigation */}
       <div className="sm:hidden flex relative">
