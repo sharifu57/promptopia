@@ -17,10 +17,6 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
           method: "DELETE",
         });
 
-        console.log("======resp");
-        console.log(response);
-        console.log("======end resp");
-
         if (response.ok) {
           const filteredPosts = myPosts.filter((p) => p._id !== post._id);
 
