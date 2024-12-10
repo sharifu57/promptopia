@@ -18,7 +18,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
       >
         <label htmlFor="">
           <span className="font-satoshi font-semibold text-base text-gray-700">
-            Your AI Prompt
+            Your Review
           </span>
 
           <textarea

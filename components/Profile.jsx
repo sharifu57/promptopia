@@ -13,13 +13,23 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
     if (hasConfirmed) {
       setLoading(true);
       try {
-        await fetch(`api/prompt/${post._id.toString()}`, {
+        const response = await fetch(`api/prompt/${post._id.toString()}`, {
           method: "DELETE",
         });
 
-        const filteredPosts = myPosts.filter((p) => p._id !== post._id);
+        console.log("======resp");
+        console.log(response);
+        console.log("======end resp");
 
-        setMyPosts(filteredPosts);
+        if (response.ok) {
+          const filteredPosts = myPosts.filter((p) => p._id !== post._id);
+
+          setMyPosts(filteredPosts);
+
+          setTimeout(() => {
+            setLoading(false);
+          }, 2000);
+        }
 
         setTimeout(() => {
           setLoading(false);
@@ -45,16 +55,22 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
         <span className="blue_gradient">{name} Profile</span>
       </h1>
       <p className="desc text-left">{desc}</p>
-      <div className="mt-10 prompt_layout">
-        {data.map((post) => (
-          <PrompCard
-            key={post._id}
-            post={post}
-            handleEdit={() => handleClickEdit && handleClickEdit(post)}
-            handleDelete={() => handleClickDelete && handleClickDelete(post)}
-          />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <Spinner />
+        </div>
+      ) : (
+        <div className="mt-10 prompt_layout">
+          {data.map((post) => (
+            <PrompCard
+              key={post._id}
+              post={post}
+              handleEdit={() => handleClickEdit && handleClickEdit(post)}
+              handleDelete={() => handleClickDelete && handleClickDelete(post)}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };
