@@ -1,6 +1,7 @@
 "use client";
 
 import Form from "@components/Form";
+import { WithUserAuth } from "@components/WithUserAuth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -50,4 +51,4 @@ const CreatePrompt = () => {
   );
 };
 
-export default CreatePrompt;
+export default WithUserAuth(CreatePrompt);

@@ -1,7 +1,7 @@
 "use client";
 
 import Profile from "@components/Profile";
-import Spinner from "@components/Spinner";
+import { WithUserAuth } from "@components/WithUserAuth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -40,4 +40,4 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default WithUserAuth(MyProfile);

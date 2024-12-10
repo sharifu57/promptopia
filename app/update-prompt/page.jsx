@@ -1,6 +1,7 @@
 "use client";
 
 import UpdatePromptContent from "@components/UpdatePromptContent";
+import { WithUserAuth } from "@components/WithUserAuth";
 import React, { Suspense } from "react";
 
 const UpdatePrompt = () => {
@@ -11,4 +12,4 @@ const UpdatePrompt = () => {
   );
 };
 
-export default UpdatePrompt;
+export default WithUserAuth(UpdatePrompt);

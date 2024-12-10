@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import PrompCard from "./PrompCard";
 import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 
 const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   const [myPosts, setMyPosts] = useState([]);
   const router = useRouter();
+  const [isLoading, setLoading] = useState(false);
   const handleClickDelete = async (post) => {
     const hasConfirmed = confirm("Are you sure you want to delete?");
 
     if (hasConfirmed) {
+      setLoading(true);
       try {
         await fetch(`api/prompt/${post._id.toString()}`, {
           method: "DELETE",
@@ -17,9 +20,14 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
         const filteredPosts = myPosts.filter((p) => p._id !== post._id);
 
         setMyPosts(filteredPosts);
+
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000);
       } catch (e) {
         console.error("Failed to delete prompt", e);
         alert("Failed to delete prompt. Please try again later.");
+        setLoading(false);
         return;
       }
     }
