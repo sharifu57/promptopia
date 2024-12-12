@@ -19,6 +19,17 @@ const CreatePrompt = () => {
     e.preventDefault();
     setSubmitting(true);
 
+    const payload = {
+      prompt: post.prompt,
+      userId: session?.user.id,
+      rating: post.rating,
+    }
+
+    console.log("=============payload data")
+    console.log(session)
+    console.log(payload)
+    console.log("=============end payload data")
+
 
     try {
       const response = await fetch("/api/prompt/new", {

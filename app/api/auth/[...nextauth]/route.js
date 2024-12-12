@@ -3,6 +3,8 @@ import GoogleProvider from "next-auth/providers/google";
 import { connectToDB } from "@utils/database";
 import User from "@models/user";
 
+let isConnected = false;
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -45,7 +47,7 @@ const handler = NextAuth({
         console.log("======user created")
         return true;
       } catch (e) {
-        console.log(e);
+        console.log("======Error Sign In:" + e);
         return false;
       }
     },
