@@ -79,19 +79,27 @@ const Feed = () => {
       </h3>
       <p className=" text-left">Users reviews and Recommendations.</p>
 
-      <div className="mt-[-50px]">
-        {searchText ? (
-          <PromptCardDataList
-            data={posts}
-            handleTagClick={handleTagDataClick}
-          />
-        ) : (
-          <PromptCardDataList
-            data={posts}
-            handleTagClick={handleTagDataClick}
-          />
-        )}
-      </div>
+      {posts.length ? (
+        <div>
+          <div className="mt-[-50px]">
+            {searchText ? (
+              <PromptCardDataList
+                data={posts}
+                handleTagClick={handleTagDataClick}
+              />
+            ) : (
+              <PromptCardDataList
+                data={posts}
+                handleTagClick={handleTagDataClick}
+              />
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="py-10">
+          <p className="text-zinc-400">No Reviews and Recommendations....</p>
+        </div>
+      )}
     </section>
   );
 };
